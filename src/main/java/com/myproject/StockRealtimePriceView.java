@@ -10,11 +10,6 @@ public class StockRealtimePriceView implements StockViewer {
     public void onUpdate(StockPrice stockPrice) {
         // TODO: Implement logic to check if price has changed and log it
 
-        if (stockPrice == null) {
-            System.err.println("\"StockPrice is null. Cannot update.\"");
-            return;
-        }
-
         String priceCode = stockPrice.getCode();
         Double price = stockPrice.getAvgPrice();
 

@@ -9,8 +9,6 @@ public class HoseAdapter implements PriceFetcher {
 
     public HoseAdapter(HosePriceFetchLib hoseLib, List<String> stockCodes) {
         // TODO: Implement constructor
-        if (hoseLib == null || stockCodes == null || stockCodes.isEmpty())
-            throw new IllegalArgumentException("hoseLib and stockCodes cannot be null or empty.");
 
         this.hoseLib = hoseLib;
         this.stockCodes = new ArrayList<>(stockCodes);
@@ -24,11 +22,6 @@ public class HoseAdapter implements PriceFetcher {
 
         List<HoseData> hoseDataList = hoseLib.getPrices(stockCodes);
 
-        if (hoseDataList == null || hoseDataList.isEmpty()) {
-            System.err.println("\"fetch - No stock data available\"");
-            return stockPricesList;
-        }
-
         for (HoseData hoseData : hoseDataList) {
             stockPricesList.add(convertToStockPrice(hoseData));
         }
@@ -38,10 +31,6 @@ public class HoseAdapter implements PriceFetcher {
 
     private StockPrice convertToStockPrice(HoseData hoseData) {
         // TODO: Convert HoseData to StockPrice
-
-        if (hoseData == null) {
-            throw new IllegalArgumentException("hoseData cannot be null.");
-        }
 
         StockPrice stockPrice = new StockPrice(hoseData.getStockCode(), hoseData.getPrice(), hoseData.getVolume(),
                 hoseData.getTimestamp());

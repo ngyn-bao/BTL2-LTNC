@@ -11,10 +11,6 @@ public class StockAlertView implements StockViewer {
     public StockAlertView(double highThreshold, double lowThreshold) {
         // TODO: Implement constructor
 
-        if (highThreshold <= lowThreshold) {
-            throw new IllegalArgumentException("High threshold must be greater than low threshold.");
-        }
-
         this.alertThresholdHigh = highThreshold;
         this.alertThresholdLow = lowThreshold;
 
