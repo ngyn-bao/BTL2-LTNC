@@ -11,7 +11,7 @@ public class Main {
         init();
         run();
     }
-    
+
     private static void init() {
         stockFeeder = StockFeeder.getInstance();
 
@@ -30,11 +30,29 @@ public class Main {
         priceFetchManager.addFetcher(hnxAdapter);
 
         Stock VICstock = new Stock("VIC", "Vingroup");
-        stockFeeder.addStock(VICstock); 
+        stockFeeder.addStock(VICstock);
 
         stockFeeder.registerViewer("VIC", new StockAlertView(60000, 55000));
         stockFeeder.registerViewer("VIC", new StockRealtimePriceView());
         stockFeeder.registerViewer("VIC", new StockTickerView());
+
+        // for (String stockCode : hoseStockCodes) {
+        // Stock stock = new Stock(stockCode, "Company " + stockCode);
+        // stockFeeder.addStock(stock);
+
+        // stockFeeder.registerViewer(stockCode, new StockAlertView(60000, 55000));
+        // stockFeeder.registerViewer(stockCode, new StockRealtimePriceView());
+        // stockFeeder.registerViewer(stockCode, new StockTickerView());
+        // }
+
+        // for (String stockCode : hnxStockCodes) {
+        // Stock stock = new Stock(stockCode, "Company " + stockCode);
+        // stockFeeder.addStock(stock);
+
+        // stockFeeder.registerViewer(stockCode, new StockAlertView(60000, 55000));
+        // stockFeeder.registerViewer(stockCode, new StockRealtimePriceView());
+        // stockFeeder.registerViewer(stockCode, new StockTickerView());
+        // }
 
         priceFetchManager.start(); // Start fetching stock prices
     }

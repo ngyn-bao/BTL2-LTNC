@@ -30,32 +30,24 @@ public class StockFeeder {
 
     public void addStock(Stock stock) {
         // TODO: Implement adding a stock to stockList
+        if (stock == null)
+            return;
 
-        if (stock != null && !stockList.contains(stock)) {
-            stockList.add(stock);
-        }
+        stockList.add(stock);
+        viewers.putIfAbsent(stock.getCode(), new ArrayList<>());
+
     }
 
     public void registerViewer(String code, StockViewer stockViewer) {
         // TODO: Implement registration logic, including checking stock existence
 
-        for (Stock stock : this.stockList) {
-            if (stock.getCode().equals(code))
-                break;
-            else {
-                Logger.errorRegister(code);
-            }
+        if (!viewers.containsKey(code)) {
+            Logger.errorRegister(code);
+            return;
         }
 
-        List<StockViewer> stockViewerList = viewers.get(code);
-
-        if (stockViewerList != null) {
-            stockViewerList.add(stockViewer);
-        } else {
-            stockViewerList = new ArrayList<>();
-            stockViewerList.add(stockViewer);
-            viewers.put(code, stockViewerList);
-        }
+        viewers.putIfAbsent(code, new ArrayList<>());
+        viewers.get(code).add(stockViewer);
     }
 
     public void unregisterViewer(String code, StockViewer stockViewer) {
@@ -79,11 +71,14 @@ public class StockFeeder {
     public void notify(StockPrice stockPrice) {
         // TODO: Implement notifying registered viewers about price updates
 
-        List<StockViewer> stockViewersList = viewers.get(stockPrice.getCode());
-        if (stockViewersList != null) {
-            for (StockViewer viewer : stockViewersList) {
-                viewer.onUpdate(stockPrice);
-            }
+        String code = stockPrice.getCode();
+        List<StockViewer> stockViewersList = viewers.get(code);
+        if (stockViewersList == null || stockViewersList.isEmpty())
+            return;
+
+        for (StockViewer viewer : stockViewersList) {
+            viewer.onUpdate(stockPrice);
         }
+
     }
 }
